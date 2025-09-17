@@ -35,16 +35,16 @@ Node *dummy_tree()
     return root;
 }
 
-void print_inorder(Node *root)
+void print_inorder(Node *root) // T(n)
 {
     if ((!root->left) && (!root->right)) // detecting leaf
     {
         cout << root->data << "\t";
         return;
     }
-    print_inorder(root->left);
-    cout << root->data << "\t";
-    print_inorder(root->right);
+    print_inorder(root->left);  // T(n/2)
+    cout << root->data << "\t"; // 1
+    print_inorder(root->right); // T(n/2)
 }
 
 void print_preorder(Node *root)
