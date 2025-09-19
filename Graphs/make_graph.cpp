@@ -36,41 +36,24 @@ void print_vi(vector<int> v)
     v[0] = 10;
 }
 
-void make_adj_matrix(pivvi &graph)
-{
-    //
-}
-
-void make_adj_list(pivvi &graph)
-{
-    //
-}
-
-void convert_to_adj_list(vvb &adj_matrix)
-{
-    //
-}
-
-void convert_to_adj_matrix(umiusi &adj_list)
-{
-    //
-}
-
-void convert_to_adj_matrix(umiumii &adj_list)
-{
-    //
-}
-
-pivvi dummy_graph()
+pair<int, vector<vector<int>>> dummy_graph()
 {
     int v = 7;
-    vvi edges({{1, 2}, {1, 3}, {1, 4}, {2, 5}});
-    return {v, edges};
+    vvi edges({{1, 2}, {1, 3}, {1, 4}, {2, 5}, {2, 6}, {3, 6}, {4, 5}});
+    vvi edges_weighted({{1, 2, 1}, {1, 3, 2}, {1, 4, 3}, {2, 5, 4}, {2, 6, 5}, {3, 6, 6}, {4, 5, 7}});
+    pair<int, vector<vector<int>>> graph1 = {v, edges};
+    pair<int, vector<vector<int>>> graph_w = {v, edges_weighted};
+    return graph_w;
+}
+
+void playing_with_graphs()
+{
+    pair<int, vector<vector<int>>> graph1 = dummy_graph();
 }
 
 void solve()
 {
-    pivvi graph1 = dummy_graph();
+    playing_with_graphs();
 }
 
 int main()
