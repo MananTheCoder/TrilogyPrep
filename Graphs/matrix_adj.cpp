@@ -102,6 +102,7 @@ vector<vector<int>> make_adj_matrix_d_w(pair<int, vector<vector<int>>> &graph_w)
         // int start = edge[0], end = edge[1];
         adj_matrix[edge[0]][edge[1]] = edge[2];
     }
+    return adj_matrix;
 }
 
 void playing_with_graphs()

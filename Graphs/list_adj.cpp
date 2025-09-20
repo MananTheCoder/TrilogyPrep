@@ -5,7 +5,7 @@ typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<bool> vb;
 typedef vector<vb> vvb;
-typedef set<int> usi;
+typedef unordered_set<int> usi;
 typedef pair<int, vvi> pivvi;
 typedef unordered_map<int, int> umii;
 typedef pair<int, int> pii;
@@ -37,9 +37,9 @@ void print_vi(vector<int> v)
     v[0] = 10;
 }
 
-void print_neighbors(set<int> &neighbors)
+void print_neighbors(unordered_set<int> &neighbors)
 {
-    set<int>::iterator itr;
+    unordered_set<int>::iterator itr;
     // (*itr++)
     for (itr = neighbors.begin(); itr != neighbors.end(); itr++)
     {
@@ -48,14 +48,14 @@ void print_neighbors(set<int> &neighbors)
     cout << "\n";
 }
 
-void print_adjacency_list(unordered_map<int, set<int>> &adjacency_list)
+void print_adjacency_list(umiusi &adjacency_list) // O(V+E)
 {
-    for (pair<const int, set<int>> &row : adjacency_list)
+    // for (pair<const int, unordered_set<int>> &row : adjacency_list) // O(V)
+    forn(i, adjacency_list.size())
     {
-        int start = row.first;
-        set<int> neighbors = row.second;
-        cout << start << " : ";
-        print_neighbors(neighbors);
+        usi neighbors = adjacency_list[i];
+        cout << i << " : ";
+        print_neighbors(neighbors); // O(E)
     }
 }
 
@@ -79,18 +79,18 @@ pair<int, vector<vector<int>>> dummy_graph()
     vvi edges_weighted({{1, 2, 1}, {1, 3, 2}, {1, 4, 3}, {2, 5, 4}, {2, 6, 5}, {3, 6, 6}, {4, 5, 7}});
     pair<int, vector<vector<int>>> graph1 = {v, edges};
     pair<int, vector<vector<int>>> graph_w = {v, edges_weighted};
-    return graph_w;
+    return graph1;
 }
 
-void initialize_adj_list(unordered_map<int, set<int>> &adjacency_list, int v) // O(v)
+void initialize_adj_list(unordered_map<int, unordered_set<int>> &adjacency_list, int v) // O(v)
 {
     for (int i = 0; i < v; i++)
     {
-        adjacency_list[i] = set<int>();
+        adjacency_list[i] = unordered_set<int>();
     }
 }
 
-void fill_adjacency_list_ud_uw(unordered_map<int, set<int>> &adjacency_list, pair<int, vector<vector<int>>> &graph) // O(V + E)
+void fill_adjacency_list_ud_uw(unordered_map<int, unordered_set<int>> &adjacency_list, pair<int, vector<vector<int>>> &graph) // O(V + E)
 {
     // handle self loop
     // print in ascending order using unordered_map
@@ -100,14 +100,14 @@ void fill_adjacency_list_ud_uw(unordered_map<int, set<int>> &adjacency_list, pai
     for (vector<int> &edge : graph.second) // O(E)
     {
         int start = edge[0], end = edge[1];
-        // set<int> &current_set = adjacency_list[start];
+        // unordered_set<int> &current_set = adjacency_list[start];
         // current_set.insert(end);
         adjacency_list[start].insert(end);
         adjacency_list[end].insert(start);
     }
 }
 
-void fill_adjacency_list_d_uw(unordered_map<int, set<int>> &adjacency_list, pair<int, vector<vector<int>>> &graph) // O(V + E)
+void fill_adjacency_list_d_uw(unordered_map<int, unordered_set<int>> &adjacency_list, pair<int, vector<vector<int>>> &graph) // O(V + E)
 {
     // handle self loop
     // print in ascending order using unordered_map
@@ -117,7 +117,7 @@ void fill_adjacency_list_d_uw(unordered_map<int, set<int>> &adjacency_list, pair
     for (vector<int> &edge : graph.second) // O(E)
     {
         int start = edge[0], end = edge[1];
-        // set<int> &current_set = adjacency_list[start];
+        // unordered_set<int> &current_set = adjacency_list[start];
         // current_set.insert(end);
         adjacency_list[start].insert(end);
         // adjacency_list[end].insert(start);
@@ -161,14 +161,14 @@ umiumii make_adj_list_w_d(pivvi &graph_w)
 
 void playing_with_graphs()
 {
-    // pair<int, vector<vector<int>>> graph1 = dummy_graph();
-    // unordered_map<int, set<int>> adjacency_list;
-    // fill_adjacency_list_ud_uw(adjacency_list, graph1);
-    // print_adjacency_list(adjacency_list);
+    pivvi graph1 = dummy_graph();
+    umiusi adjacency_list;
+    fill_adjacency_list_ud_uw(adjacency_list, graph1);
+    print_adjacency_list(adjacency_list);
 
-    pair<int, vector<vector<int>>> graph_w = dummy_graph();
-    umiumii bapu_weighted = make_adj_list_w_d(graph_w);
-    print_adj_list_w_ud(bapu_weighted);
+    // pair<int, vector<vector<int>>> graph_w = dummy_graph();
+    // umiumii bapu_weighted = make_adj_list_w_d(graph_w);
+    // print_adj_list_w_ud(bapu_weighted);
 }
 
 void solve()

@@ -10,6 +10,7 @@ typedef pair<int, vvi> pivvi;
 typedef unordered_map<int, int> umii;
 typedef unordered_map<int, umii> umiumii;
 typedef unordered_map<int, usi> umiusi;
+typedef pair<int, int> pii;
 
 #define forn(i, n) for (int i = 0; i < n; i++)
 
@@ -53,6 +54,53 @@ void print_adj_matrix_uw(vvb &adj_matrix)
         for (bool val : row)
         {
             cout << val << "\t";
+        }
+        cout << "\n";
+    }
+}
+
+void print_adj_matrix_w(vvi &adj_matrix)
+{
+    for (vi &row : adj_matrix)
+    {
+        for (int val : row)
+        {
+            cout << val << "\t";
+        }
+        cout << "\n";
+    }
+}
+
+void print_neighbors(unordered_set<int> &neighbors)
+{
+    unordered_set<int>::iterator itr;
+    // (*itr++)
+    for (itr = neighbors.begin(); itr != neighbors.end(); itr++)
+    {
+        cout << (*itr) << " ";
+    }
+    cout << "\n";
+}
+
+void print_adjacency_list(umiusi &adjacency_list)
+{
+    for (pair<const int, unordered_set<int>> &row : adjacency_list)
+    {
+        int start = row.first;
+        unordered_set<int> neighbors = row.second;
+        cout << start << " : ";
+        print_neighbors(neighbors);
+    }
+}
+
+void print_adjacency_list_w(umiumii &adj_list)
+{
+    for (pair<const int, umii> &row : adj_list)
+    {
+        cout << row.first << " :\n";
+        for (pii src_dist : row.second)
+        {
+            cout << "\t" << src_dist.first << " -> " << src_dist.second << "\n";
         }
         cout << "\n";
     }
@@ -103,11 +151,41 @@ vector<vector<int>> make_adj_matrix_d_w(pair<int, vector<vector<int>>> &graph_w)
         // int start = edge[0], end = edge[1];
         adj_matrix[edge[0]][edge[1]] = edge[2];
     }
+    return adj_matrix;
 }
 
-umiumii convert_adj_matrix_to_list_w_d(vector<vector<int>> &adj_matrix_w_d)
+umiusi convert_adj_matrix_to_list_uw(vector<vector<bool>> &adj_matrix_uw_ud)
 {
-    //
+    umiusi adj_list;
+    forn(i, adj_matrix_uw_ud.size())
+    {
+        adj_list[i] = usi();
+        forn(j, adj_matrix_uw_ud.size())
+        {
+            if (adj_matrix_uw_ud[i][j])
+            {
+                adj_list[i].insert(j);
+            }
+        }
+    }
+    return adj_list;
+}
+
+umiumii convert_adj_matrix_to_list_w(vvi &adj_matrix_w)
+{
+    umiumii adj_list;
+    forn(i, adj_matrix_w.size())
+    {
+        adj_list[i] = umii();
+        forn(j, adj_matrix_w.size())
+        {
+            if (adj_matrix_w[i][j] != -1)
+            {
+                adj_list[i][j] = adj_matrix_w[i][j];
+            }
+        }
+    }
+    return adj_list;
 }
 
 void playing_with_graphs()
@@ -115,12 +193,16 @@ void playing_with_graphs()
     // pair<int, vector<vector<int>>> graph1 = dummy_graph();
     // int v = graph1.first;
     // vvb adj_matrix_uw_ud(v, vector<bool>(v, false));
-    // fill_adj_matrix_uw_ud(graph1, adj_matrix);
-    // umiusi adj_list = convert_adj_matrix_to_list_uw_ud(adj_matrix_uw_ud);
+    // fill_adj_matrix_uw_ud(graph1, adj_matrix_uw_ud);
+    // print_adj_matrix_uw(adj_matrix_uw_ud);
+    // umiusi adj_list = convert_adj_matrix_to_list_uw(adj_matrix_uw_ud);
+    // print_adjacency_list(adj_list);
 
     pair<int, vector<vector<int>>> graph_w = dummy_graph();
-    vector<vector<int>> adj_matrix_w_d = make_adj_matrix_d_w(graph_w);
-    umiumii adj_list_w_d = convert_adj_matrix_to_list_w_d(adj_matrix_w_d);
+    vvi adj_matrix_w = make_adj_matrix_d_w(graph_w);
+    print_adj_matrix_w(adj_matrix_w);
+    umiumii adj_list_w = convert_adj_matrix_to_list_w(adj_matrix_w);
+    print_adjacency_list_w(adj_list_w);
 }
 
 void solve()
